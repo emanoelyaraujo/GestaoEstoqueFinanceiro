@@ -1,6 +1,6 @@
 package dao;
 
-import bin.Produto;
+import bean.Produto;
 import java.sql.PreparedStatement;
 import config.Conexao;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package bin;
+package bean;
 
 public class Produto {
     // atributos de classe

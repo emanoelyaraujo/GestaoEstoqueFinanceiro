@@ -1,6 +1,6 @@
 package interfaceApp;
 
-import bin.Produto;
+import bean.Produto;
 import dao.ProdutoDAO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

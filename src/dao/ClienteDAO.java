@@ -4,6 +4,7 @@ import bean.Cliente;
 import java.sql.ResultSet;
 import config.Conexao;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.sql.Statement;
 import java.text.DateFormat;
@@ -55,5 +56,47 @@ public class ClienteDAO {
 
         // retorna a coleção
         return clientes;
+    }
+    
+    public String grave(Cliente cliente){
+        // declara a string que será retornada
+        String msg = "";
+        
+        try {
+            
+            // efetua uma conexão com o BD
+            Conexao conn = new Conexao();
+            conn.conecte();
+            
+            // determina a query que será executada 
+            String sql = "call p_salve_cliente(?, ?, ?, ?, ?, ?)";
+            
+            // cria um objeto que substirui a ? 
+            PreparedStatement st = conn.conexao.prepareStatement(sql);
+            
+            st.setInt(1, cliente.getPessoaId());
+            st.setString(2, cliente.getNome());
+            st.setString(3, cliente.getTipoPessoa());
+            st.setString(4, cliente.getCpfCnpj());
+            st.setString(5, cliente.getTelefone());
+            st.setString(6, cliente.getEmail());
+            
+            // executa a procedure
+            st.executeUpdate();
+            
+            // recupera a msg do BD
+            ResultSet rs = st.getResultSet();
+            rs.next(); 
+            
+            // atribui a variavel msg a mensagem da procedure
+            msg = rs.getString(3);
+            st.close();
+            
+        } catch (ClassNotFoundException | SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        // retorna a msg da procedure
+        return msg;
     }
 }

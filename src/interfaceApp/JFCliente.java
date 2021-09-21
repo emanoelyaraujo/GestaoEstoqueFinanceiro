@@ -5,13 +5,17 @@ import dao.ClienteDAO;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class JFCliente extends javax.swing.JFrame {
-
+    
     // arraylist da classe cliente
     ArrayList<Cliente> clientes = new ArrayList<>();
 
+    // -1 é inserção e diferente é atualização ou remoção
+    private int linha = -1;
+    
     public JFCliente() {
         initComponents();
 
@@ -124,6 +128,11 @@ public class JFCliente extends javax.swing.JFrame {
         }
 
         btnGravar.setText("Gravar");
+        btnGravar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGravarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
         btnExcluir.setEnabled(false);
@@ -147,6 +156,11 @@ public class JFCliente extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClienteMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblCliente);
@@ -233,6 +247,90 @@ public class JFCliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGravarActionPerformed
+        
+        int id = -1;
+        
+        // verifica o modo de operação do formulário
+        if(this.linha != -1){
+            id = this.clientes.get(this.linha).getPessoaId();
+        }
+        
+        // determina o valor que será passado para a procedure tipo pessoa
+        String tipoPessoa = "";
+        
+        if(jcbTipoPessoa.getSelectedItem().toString().equals("Pessoa Física")){
+            tipoPessoa = "F";
+        } else {
+            tipoPessoa = "J";
+        }
+        
+        // cria um objeto da classe cliente
+        Cliente cliente = new Cliente(
+                id,
+                txtNome.getText(),
+                tipoPessoa,
+                txtCpfCnpj.getText().replace(".", "").replace("-", "").replace("/", ""),
+                txtTelefone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""),
+                txtEmail.getText(),
+                null
+        );
+        
+        // cria um objeto da classe DAO
+        ClienteDAO dao = new ClienteDAO();
+        
+        // registra no banco e recupera a msg
+        String msg = dao.grave(cliente);
+        
+        this.preenchaTabela();
+        
+        // controle de botoes
+        this.controlaButton(false);
+        
+        // limpa o form
+        this.limpaForm();
+        
+        // exibe a msg
+        JOptionPane.showMessageDialog(rootPane, msg);
+    }//GEN-LAST:event_btnGravarActionPerformed
+
+    private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
+        
+        // determina a linha clicada na tabela
+        this.linha = tblCliente.rowAtPoint(evt.getPoint());
+        
+        // seta os campos do formulário com os atributos do abj selecionado
+        txtNome.setText(this.clientes.get(this.linha).getNome());
+        
+        // determina o valor do JComboBox
+        if ( this.clientes.get( this.linha ).getTipoPessoa().equals("F") ) {
+            jcbTipoPessoa.setSelectedItem("Pessoa Física");
+        } else {
+            jcbTipoPessoa.setSelectedItem("Pessoa Jurídica");
+        }
+        txtCpfCnpj.setText(this.clientes.get(this.linha).getCpfCnpj());
+        txtTelefone.setText(this.clientes.get(this.linha).getTelefone());
+        txtEmail.setText(this.clientes.get(this.linha).getEmail());
+        
+        // controle de botoes
+        this.controlaButton(true);
+    }//GEN-LAST:event_tblClienteMouseClicked
+
+    private void controlaButton(boolean habilita){
+        btnExcluir.setEnabled(habilita);
+        btnNovo.setEnabled(habilita);
+    }
+    
+    private void limpaForm(){
+        
+        this.linha = -1;
+        
+        txtNome.setText("");
+        jcbTipoPessoa.setSelectedItem("Pessoa Física");
+        txtTelefone.setText("");
+        txtEmail.setText("");
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

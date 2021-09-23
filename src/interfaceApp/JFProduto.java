@@ -352,6 +352,7 @@ public class JFProduto extends javax.swing.JFrame {
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         this.limpeFormulario();
         this.controleButton(false);
+        this.preencheTabela();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void limpeFormulario() {

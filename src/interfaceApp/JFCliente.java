@@ -9,13 +9,13 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class JFCliente extends javax.swing.JFrame {
-    
+
     // arraylist da classe cliente
     ArrayList<Cliente> clientes = new ArrayList<>();
 
     // -1 é inserção e diferente é atualização ou remoção
     private int linha = -1;
-    
+
     public JFCliente() {
         initComponents();
 
@@ -44,16 +44,16 @@ public class JFCliente extends javax.swing.JFrame {
 
         // percorre o arraylist
         for (int i = 0; i < this.clientes.size(); i++) {
-           
-            String cpfCnpj = this.clientes.get(i).getCpfCnpj().substring(0, 3) + "." +
-                    this.clientes.get(i).getCpfCnpj().substring(3, 6) + "." + 
-                    this.clientes.get(i).getCpfCnpj().substring(6, 9) + "-" + 
-                    this.clientes.get(i).getCpfCnpj().substring(9, 11);
-            
-            String telefone = "(" + this.clientes.get(i).getTelefone().substring(0, 2) + ") " +
-                    this.clientes.get(i).getTelefone().substring(2, 7) + "-" + 
-                    this.clientes.get(i).getTelefone().substring(7, 11);
-            
+
+            String cpfCnpj = this.clientes.get(i).getCpfCnpj().substring(0, 3) + "."
+                    + this.clientes.get(i).getCpfCnpj().substring(3, 6) + "."
+                    + this.clientes.get(i).getCpfCnpj().substring(6, 9) + "-"
+                    + this.clientes.get(i).getCpfCnpj().substring(9, 11);
+
+            String telefone = "(" + this.clientes.get(i).getTelefone().substring(0, 2) + ") "
+                    + this.clientes.get(i).getTelefone().substring(2, 7) + "-"
+                    + this.clientes.get(i).getTelefone().substring(7, 11);
+
             // adiciona uma linha na tabela
             model.addRow(new String[]{
                 this.clientes.get(i).getNome(),
@@ -127,6 +127,8 @@ public class JFCliente extends javax.swing.JFrame {
             ex.printStackTrace();
         }
 
+        btnGravar.setBackground(new java.awt.Color(82, 144, 238));
+        btnGravar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnGravar.setText("Gravar");
         btnGravar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,13 +136,34 @@ public class JFCliente extends javax.swing.JFrame {
             }
         });
 
+        btnExcluir.setBackground(new java.awt.Color(200, 41, 41));
+        btnExcluir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnExcluir.setText("Excluir");
         btnExcluir.setEnabled(false);
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
+        btnNovo.setBackground(new java.awt.Color(95, 219, 95));
+        btnNovo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnNovo.setText("Novo");
         btnNovo.setEnabled(false);
+        btnNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoActionPerformed(evt);
+            }
+        });
 
+        btnFiltro.setBackground(new java.awt.Color(109, 105, 110));
+        btnFiltro.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnFiltro.setText("Filtro");
+        btnFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltroActionPerformed(evt);
+            }
+        });
 
         tblCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -188,10 +211,10 @@ public class JFCliente extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel2)
-                                    .addComponent(jcbTipoPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4)
+                                    .addComponent(jcbTipoPessoa, 0, 125, Short.MAX_VALUE)
                                     .addComponent(txtTelefone))
-                                .addGap(30, 30, 30)
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(1, 1, 1)
@@ -248,23 +271,23 @@ public class JFCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGravarActionPerformed
-        
+
         int id = -1;
-        
+
         // verifica o modo de operação do formulário
-        if(this.linha != -1){
+        if (this.linha != -1) {
             id = this.clientes.get(this.linha).getPessoaId();
         }
-        
+
         // determina o valor que será passado para a procedure tipo pessoa
         String tipoPessoa = "";
-        
-        if(jcbTipoPessoa.getSelectedItem().toString().equals("Pessoa Física")){
+
+        if (jcbTipoPessoa.getSelectedItem().toString().equals("Pessoa Física")) {
             tipoPessoa = "F";
         } else {
             tipoPessoa = "J";
         }
-        
+
         // cria um objeto da classe cliente
         Cliente cliente = new Cliente(
                 id,
@@ -275,35 +298,35 @@ public class JFCliente extends javax.swing.JFrame {
                 txtEmail.getText(),
                 null
         );
-        
+
         // cria um objeto da classe DAO
         ClienteDAO dao = new ClienteDAO();
-        
+
         // registra no banco e recupera a msg
         String msg = dao.grave(cliente);
-        
+
         this.preenchaTabela();
-        
+
         // controle de botoes
         this.controlaButton(false);
-        
+
         // limpa o form
         this.limpaForm();
-        
+
         // exibe a msg
         JOptionPane.showMessageDialog(rootPane, msg);
     }//GEN-LAST:event_btnGravarActionPerformed
 
     private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
-        
+
         // determina a linha clicada na tabela
         this.linha = tblCliente.rowAtPoint(evt.getPoint());
-        
+
         // seta os campos do formulário com os atributos do abj selecionado
         txtNome.setText(this.clientes.get(this.linha).getNome());
-        
+
         // determina o valor do JComboBox
-        if ( this.clientes.get( this.linha ).getTipoPessoa().equals("F") ) {
+        if (this.clientes.get(this.linha).getTipoPessoa().equals("F")) {
             jcbTipoPessoa.setSelectedItem("Pessoa Física");
         } else {
             jcbTipoPessoa.setSelectedItem("Pessoa Jurídica");
@@ -311,26 +334,101 @@ public class JFCliente extends javax.swing.JFrame {
         txtCpfCnpj.setText(this.clientes.get(this.linha).getCpfCnpj());
         txtTelefone.setText(this.clientes.get(this.linha).getTelefone());
         txtEmail.setText(this.clientes.get(this.linha).getEmail());
-        
+
         // controle de botoes
         this.controlaButton(true);
     }//GEN-LAST:event_tblClienteMouseClicked
 
-    private void controlaButton(boolean habilita){
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+
+        ///pergunta ao usuario se deseja mesno excluir 
+        if (JOptionPane.showConfirmDialog(
+                null,
+                "Deseja realmente remover o registro?",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION
+        ) == JOptionPane.YES_OPTION) {
+
+            // cria um obj da classe dao
+            ClienteDAO dao = new ClienteDAO();
+
+            // remove e recupera a msg da procedure
+            String msg = dao.remove(this.clientes.get(this.linha).getPessoaId());
+
+            // preecnhe a tabela 
+            this.preenchaTabela();
+
+            // controle de botões
+            this.controlaButton(false);
+
+            //limpa o form
+            this.limpaForm();
+
+            // exibe a msg da procedure
+            JOptionPane.showMessageDialog(null, msg);
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
+        this.limpaForm();
+        this.controlaButton(false);
+        this.preenchaTabela();
+    }//GEN-LAST:event_btnNovoActionPerformed
+
+    private void btnFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroActionPerformed
+
+        // cria um obj da classe dao
+        ClienteDAO dao = new ClienteDAO();
+
+        this.clientes = dao.pesquise(txtNome.getText());
+
+        // recupera o objeto da tabela 
+        DefaultTableModel model = (DefaultTableModel) tblCliente.getModel();
+
+        // limpa a tabela
+        model.setRowCount(0);
+
+        // cria um objeto para formatar a data
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        // percorre o arraylist
+        for (int i = 0; i < this.clientes.size(); i++) {
+
+            String cpfCnpj = this.clientes.get(i).getCpfCnpj().substring(0, 3) + "."
+                    + this.clientes.get(i).getCpfCnpj().substring(3, 6) + "."
+                    + this.clientes.get(i).getCpfCnpj().substring(6, 9) + "-"
+                    + this.clientes.get(i).getCpfCnpj().substring(9, 11);
+
+            String telefone = "(" + this.clientes.get(i).getTelefone().substring(0, 2) + ") "
+                    + this.clientes.get(i).getTelefone().substring(2, 7) + "-"
+                    + this.clientes.get(i).getTelefone().substring(7, 11);
+
+            // adiciona uma linha na tabela
+            model.addRow(new String[]{
+                this.clientes.get(i).getNome(),
+                cpfCnpj,
+                telefone,
+                format.format(this.clientes.get(i).getDataCadastro())
+            });
+        }
+    }//GEN-LAST:event_btnFiltroActionPerformed
+
+    private void controlaButton(boolean habilita) {
         btnExcluir.setEnabled(habilita);
         btnNovo.setEnabled(habilita);
     }
-    
-    private void limpaForm(){
-        
+
+    private void limpaForm() {
+
         this.linha = -1;
-        
+
         txtNome.setText("");
         jcbTipoPessoa.setSelectedItem("Pessoa Física");
+        txtCpfCnpj.setText("");
         txtTelefone.setText("");
         txtEmail.setText("");
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

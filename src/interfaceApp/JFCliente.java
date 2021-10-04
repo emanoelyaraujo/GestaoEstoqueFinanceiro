@@ -3,10 +3,13 @@ package interfaceApp;
 import bean.Cliente;
 import dao.ClienteDAO;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
 
 public class JFCliente extends javax.swing.JFrame {
 
@@ -114,6 +117,11 @@ public class JFCliente extends javax.swing.JFrame {
         jLabel5.setText("E-mail");
 
         jcbTipoPessoa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pessoa Física", "Pessoa Jurídica" }));
+        jcbTipoPessoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbTipoPessoaActionPerformed(evt);
+            }
+        });
 
         try {
             txtCpfCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
@@ -412,6 +420,29 @@ public class JFCliente extends javax.swing.JFrame {
             });
         }
     }//GEN-LAST:event_btnFiltroActionPerformed
+
+    private void jcbTipoPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoPessoaActionPerformed
+
+        // limpa o campo do numero do documento
+        txtCpfCnpj.setText("");
+
+        try {
+            // verifica se o tipo de pessoa informada é PF OU PJ
+            if (jcbTipoPessoa.getSelectedItem().toString().equals("Pessoa Física")) {
+
+                // define a mascara de cpf
+                txtCpfCnpj.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("###.###.###-##")));
+            } else {
+                // define a mascara de cnpj
+                txtCpfCnpj.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("##.###.###/####-##")));
+            }
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(rootPane, "Não foi possível converter a máscara.");
+        }
+        
+        // seta o cursor para o campo txtCpfCnpj
+        txtCpfCnpj.requestFocus();
+    }//GEN-LAST:event_jcbTipoPessoaActionPerformed
 
     private void controlaButton(boolean habilita) {
         btnExcluir.setEnabled(habilita);

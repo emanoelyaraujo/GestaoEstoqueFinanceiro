@@ -28,7 +28,7 @@ public class FornecedorDAO {
             Conexao conn = new Conexao();
             conn.conecte();
 
-            // objeto para manipular a sentença sql
+            // objeto para manipular a sent ença sql
             Statement st = conn.conexao.createStatement();
 
             // manipula os dados

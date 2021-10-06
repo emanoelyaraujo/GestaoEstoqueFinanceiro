@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
@@ -22,6 +23,9 @@ public class JFCliente extends javax.swing.JFrame {
     public JFCliente() {
         initComponents();
 
+        // não busca o ultimo valor digitado
+        txtCpfCnpj.setFocusLostBehavior(JFormattedTextField.PERSIST);
+        
         // centraliza os componentes
         setLocationRelativeTo(null);
 
@@ -48,10 +52,7 @@ public class JFCliente extends javax.swing.JFrame {
         // percorre o arraylist
         for (int i = 0; i < this.clientes.size(); i++) {
 
-            String cpfCnpj = this.clientes.get(i).getCpfCnpj().substring(0, 3) + "."
-                    + this.clientes.get(i).getCpfCnpj().substring(3, 6) + "."
-                    + this.clientes.get(i).getCpfCnpj().substring(6, 9) + "-"
-                    + this.clientes.get(i).getCpfCnpj().substring(9, 11);
+            String cpfCnpj = this.mascaraCpfCnpj(this.clientes.get(i).getCpfCnpj());
 
             String telefone = "(" + this.clientes.get(i).getTelefone().substring(0, 2) + ") "
                     + this.clientes.get(i).getTelefone().substring(2, 7) + "-"
@@ -422,11 +423,8 @@ public class JFCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltroActionPerformed
 
     private void jcbTipoPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoPessoaActionPerformed
-
-        // limpa o campo do numero do documento
-        txtCpfCnpj.setText("");
-
         try {
+
             // verifica se o tipo de pessoa informada é PF OU PJ
             if (jcbTipoPessoa.getSelectedItem().toString().equals("Pessoa Física")) {
 
@@ -436,14 +434,27 @@ public class JFCliente extends javax.swing.JFrame {
                 // define a mascara de cnpj
                 txtCpfCnpj.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("##.###.###/####-##")));
             }
+
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(rootPane, "Não foi possível converter a máscara.");
         }
-        
-        // seta o cursor para o campo txtCpfCnpj
-        txtCpfCnpj.requestFocus();
     }//GEN-LAST:event_jcbTipoPessoaActionPerformed
 
+    private String mascaraCpfCnpj(String clientes) {
+        String cpfCnpj = "";
+
+        if (clientes.length() == 11) {
+            cpfCnpj = clientes.substring(0, 3) + "." + clientes.substring(3, 6) + "."
+                + clientes.substring(6, 9) + "-" + clientes.substring(9, 11);
+        } else {
+            cpfCnpj = clientes.substring(0, 2) + "." + clientes.substring(2, 5) + "."
+                + clientes.substring(5, 8) + "/" + clientes.substring(8, 11) + "-"
+                + clientes.substring(11, 13);
+        }
+
+        return cpfCnpj;
+    }
+    
     private void controlaButton(boolean habilita) {
         btnExcluir.setEnabled(habilita);
         btnNovo.setEnabled(habilita);

@@ -262,7 +262,7 @@ public class JFFornecedor extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {
         this.limpaForm();
@@ -394,10 +394,15 @@ public class JFFornecedor extends javax.swing.JFrame {
         }
 
         // cria um objeto da classe cliente
-        Fornecedor fornecedor = new Fornecedor(id, txtNome.getText(), tipoPessoa,
+        Fornecedor fornecedor = new Fornecedor(
+            id, 
+            txtNome.getText(), 
+            tipoPessoa,
             txtCpfCnpj.getText().replace(".", "").replace("-", "").replace("/", ""),
             txtTelefone.getText().replace("(", "").replace(")", "").replace(" ", "").replace("-", ""),
-            txtEmail.getText(), null);
+            txtEmail.getText(), 
+            null
+        );
 
         // cria um objeto da classe DAO
         FornecedorDAO dao = new FornecedorDAO();

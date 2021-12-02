@@ -106,6 +106,7 @@ public class JFCliente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestão de Clientes");
+        setResizable(false);
 
         jLabel1.setText("Nome");
 

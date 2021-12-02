@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/emanoely.araujo/Documents/GestaoEstoqueFinanceiro/src/bean/Fornecedor.java</file>
-            <file>file:/C:/Users/emanoely.araujo/Documents/GestaoEstoqueFinanceiro/src/dao/ClienteDAO.java</file>
-            <file>file:/C:/Users/emanoely.araujo/Documents/GestaoEstoqueFinanceiro/src/dao/FornecedorDAO.java</file>
-            <file>file:/C:/Users/emanoely.araujo/Documents/GestaoEstoqueFinanceiro/src/interfaceApp/JFFornecedor.java</file>
-            <file>file:/C:/Users/emanoely.araujo/Documents/GestaoEstoqueFinanceiro/src/bean/Cliente.java</file>
-            <file>file:/C:/Users/emanoely.araujo/Documents/GestaoEstoqueFinanceiro/src/interfaceApp/JFCliente.java</file>
+            <file>file:/C:/Users/emano/OneDrive/Documentos/4°%20Período/POO/Gestão%20de%20Estoque%20e%20Financeiro/src/interfaceApp/JFFornecedor.java</file>
+            <file>file:/C:/Users/emano/OneDrive/Documentos/4°%20Período/POO/Gestão%20de%20Estoque%20e%20Financeiro/src/interfaceApp/JFPrincipal.java</file>
+            <file>file:/C:/Users/emano/OneDrive/Documentos/4°%20Período/POO/Gestão%20de%20Estoque%20e%20Financeiro/src/interfaceApp/JFMovimentacao.java</file>
+            <file>file:/C:/Users/emano/OneDrive/Documentos/4°%20Período/POO/Gestão%20de%20Estoque%20e%20Financeiro/src/dao/MovimentacaoDAO.java</file>
         </group>
     </open-files>
 </project-private>
